@@ -5,16 +5,18 @@ import { Hello } from "./components/Hello";
 import { Provider } from 'react-redux'
 import { Route, Switch } from 'react-router' 
 import { ConnectedRouter } from 'connected-react-router'
-import create, { history } from './redux/store'
+import configureStore, { history } from './store/index'
 
-const store = create();
+import App from "./App";
+
+const store = configureStore();
 
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}> 
       <> 
         <Switch>
-          <Route exact path="/" render={() => (<div>Match</div>)} />
+          <Route exact path="/" component={App} />
           <Route render={() => (<div>Miss</div>)} />
         </Switch>
       </>
