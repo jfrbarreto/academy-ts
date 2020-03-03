@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx webpack"
+    "build": "npx webpack"
   },
   "keywords": [],
   "author": "",
@@ -27,9 +27,19 @@
     "workbox-webpack-plugin": "^5.0.0"
   },
   "dependencies": {
-    "@babel/parser": "^7.8.6",
-    "@babel/types": "^7.8.6",
+    "@types/history": "^4.7.5",
+    "@types/react-redux": "^7.1.7",
+    "@types/react-router": "^5.1.4",
+    "@types/semantic-ui": "^2.2.7",
+    "connected-react-router": "^6.7.0",
+    "history": "^4.10.1",
+    "html-webpack-plugin": "^3.2.0",
     "react": "^16.13.0",
-    "react-dom": "^16.13.0"
+    "react-bootstrap": "^1.0.0-beta.17",
+    "react-dom": "^16.13.0",
+    "react-redux": "^7.2.0",
+    "react-router": "^5.1.2",
+    "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8"
   }
 }

@@ -1,5 +1,17 @@
 import * as React from "react";
 
+import { Button } from 'react-bootstrap';
+
 export interface HelloProps { compiler: string; framework: string; }
 
-export const Hello = (props: HelloProps) => <h1>Hello from {props.compiler} and {props.framework}!</h1>;
+
+export class Hello extends React.Component<HelloProps, {}> {
+
+handleClick = () => {
+    console.log('1231231231');
+}
+
+    render() {
+        return (<Button onClick={this.handleClick} >Test  </Button>);
+    } 
+} 

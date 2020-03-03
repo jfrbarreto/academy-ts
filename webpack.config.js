@@ -1,3 +1,8 @@
+
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const port = process.env.PORT || 3000;
+
 module.exports = {
 	mode: "production",
 	entry: "./src/index.tsx",
@@ -7,7 +12,7 @@ module.exports = {
 
     resolve: {
         // Add '.ts' and '.tsx' as resolvable extensions.
-        extensions: [".ts", ".tsx"]
+        extensions: [".ts", ".tsx", ".js", ".css"]
     },
 
     module: {
@@ -21,6 +26,10 @@ module.exports = {
                     }
                 ]
             },
+            {
+                test: /\.css$/i,
+                use: ['style-loader', 'css-loader'],
+              },
             // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
             {
                 enforce: "pre",
@@ -37,5 +46,19 @@ module.exports = {
     externals: {
         "react": "React",
         "react-dom": "ReactDOM"
-    }
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+          template: 'public/index.html',
+          favicon: 'public/favicon.ico'
+        })
+      ],
+      devServer: {
+        host: 'localhost',
+        port: port,
+        historyApiFallback: true,
+        open: true,
+        watchContentBase: true,
+        liveReload: true
+      }
 };
