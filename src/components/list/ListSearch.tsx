@@ -12,7 +12,10 @@ import {
   NavDropdown,
   Form,
   FormControl,
-  Button
+  Button,
+  InputGroup,
+  Dropdown,
+  DropdownButton
 } from "react-bootstrap";
 
 interface ListSearchProps {
@@ -30,10 +33,24 @@ class ListSearch extends React.Component<ListSearchProps> {
 
   render() {
     return (
-      <Form inline>
-        <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-        <Button variant="outline-success">Search</Button>
-      </Form>
+      <Container fluid>
+        <Row>
+          <Col className="ml-auto" md={{ span: 3, offset: 13 }}>
+            <InputGroup className="mb-3">
+              <DropdownButton
+                as={InputGroup.Prepend}
+                variant="outline-secondary"
+                title="Search Type"
+                id="input-group-dropdown-1"
+              >
+                <Dropdown.Item href="#">POST</Dropdown.Item>
+                <Dropdown.Item href="#">LOCAL</Dropdown.Item>
+              </DropdownButton>
+              <FormControl aria-describedby="basic-addon1" />
+            </InputGroup>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }
