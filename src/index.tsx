@@ -1,26 +1,25 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { Hello } from "./components/Hello";
-
-import { Provider } from 'react-redux'
-import { Route, Switch } from 'react-router' 
-import { ConnectedRouter } from 'connected-react-router'
-import configureStore, { history } from './store/index'
-
-import App from "./App";
-
-const store = configureStore();
+import { Provider } from "react-redux";
+import { Route, Switch } from "react-router";
+import { ConnectedRouter } from "connected-react-router";
+import configureStore, { history } from "./store/configureStore";
+import Home from "./Home";
+import List from "./List";
+import NavError from "./NavError";
 
 ReactDOM.render(
-  <Provider store={store}>
-    <ConnectedRouter history={history}> 
-      <> 
+  <Provider store={configureStore()}>
+    <ConnectedRouter history={history}>
+      <>
         <Switch>
-          <Route exact path="/" component={App} />
-          <Route render={() => (<div>Miss</div>)} />
+          <Route exact path="/" component={Home} />
+          <Route exact path="/home" component={Home} />
+          <Route exact path="/list" component={List} />
+          <Route render={() => <NavError/>} />
         </Switch>
       </>
     </ConnectedRouter>
   </Provider>,
-  document.getElementById('root')
-)
+  document.getElementById("root")
+);
