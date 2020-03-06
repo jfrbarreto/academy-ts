@@ -25,5 +25,5 @@ interface updateFilterValue {
     value: string
 }
 
-export type Routes = "home" | "list" | "list-details" | "todo" | "users";
+export type Routes = "home" | "list" | "list-details" | "todo" | "user" | "user-create";
 export type HeaderActionTypes = updateHeaderVisibility | headerNavigate | updateFilterValue;

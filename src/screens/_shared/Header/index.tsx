@@ -8,6 +8,8 @@ import {
 } from "../../../store/header/actions";
 import { updateFilteredPostList } from "../../../store/list/actions";
 
+import { updateUserOnEdit } from "../../../store/user/actions";
+
 import { push, Push, RouterState } from "connected-react-router";
 
 import {
@@ -33,6 +35,7 @@ interface HeaderProps {
   updateHeaderVisibility: typeof updateHeaderVisibility;
   updateFilterValue: typeof updateFilterValue;
   updateFilteredPostList: typeof updateFilteredPostList;
+  updateUserOnEdit: typeof updateUserOnEdit;
   push: Push;
   router: RouterState;
   listBody: ListBodyState;
@@ -67,7 +70,7 @@ class Header extends React.Component<HeaderProps> {
         location: { pathname }
       }
     } = this.props;
-    return pathname.includes(link);
+    return pathname.replace("/", "") === link;
   };
 
   filterUser = (event: React.MouseEvent<HTMLButtonElement>): void => {
@@ -84,6 +87,11 @@ class Header extends React.Component<HeaderProps> {
     updateFilterValue(target.value);
     updateFilteredPostList(filteredPostList);
   };
+
+  navCreateNewUser = () => {
+    this.props.updateUserOnEdit(null)
+    this.nav('user-create');
+  }
 
   render() {
     const {
@@ -109,18 +117,27 @@ class Header extends React.Component<HeaderProps> {
 
         <Nav className="ml-auto">
           {this.isActive("list") && (
-            <Form onSubmit={(event: any) => event.preventDefault()} inline className="" style={{ marginRight: "30px" }}>
-              <Form.Label style={{ marginRight: '10px'}}>Filter</Form.Label>
+            <Form
+              onSubmit={(event: any) => event.preventDefault()}
+              inline
+              className=""
+              style={{ marginRight: "30px" }}
+            >
+              <Form.Label style={{ marginRight: "10px" }}>Filter</Form.Label>
               <FormControl
                 type={"number"}
                 value={filterValue}
                 onChange={(e: any) => this.filterUser(e)}
                 aria-describedby="basic-addon1"
-                disabled={this.isActive('list-details')}
+                disabled={this.isActive("list-details")}
               />
-              
             </Form>
           )}
+
+          {this.isActive("user") && (
+            <Button onClick={() => this.navCreateNewUser()} style={{ marginRight: "10px" }} variant="success">New User</Button>
+          )}
+
           <Nav.Link
             active={this.isActive("home")}
             onClick={() => this.nav("home")}
@@ -140,10 +157,10 @@ class Header extends React.Component<HeaderProps> {
             To-Do
           </Nav.Link>
           <Nav.Link
-            active={this.isActive("users")}
-            onClick={() => this.nav("users")}
+            active={this.isActive("user")}
+            onClick={() => this.nav("user")}
           >
-            Users
+            User
           </Nav.Link>
         </Nav>
       </Navbar>
@@ -161,5 +178,6 @@ export default connect(mapStateToProps, {
   updateHeaderVisibility,
   updateFilterValue,
   updateFilteredPostList,
-  push
+  push,
+  updateUserOnEdit
 })(Header);

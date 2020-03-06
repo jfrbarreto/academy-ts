@@ -7,7 +7,9 @@ import configureStore, { history } from "./store/configureStore";
 import Home from "./screens/Home";
 import List from "./screens/List";
 import ListDetails from "./screens/List/Details";
-import Users from "./screens/Users";
+import User from "./screens/User";
+import Todo from "./screens/Todo";
+import UserCreate from "./screens/User/Create";
 import NavError from "./screens/_shared/404";
 import { initLocalDB } from "./lib/localstorage"
 
@@ -22,7 +24,9 @@ ReactDOM.render(
           <Route exact path="/home" component={Home} />
           <Route exact path="/list" component={List} />
           <Route exact path="/list-details" component={ListDetails} />
-          <Route exact path="/users" component={Users} />
+          <Route exact path="/user" component={User} />
+          <Route exact path="/user-create" component={UserCreate} />
+          <Route exact path="/todo" component={Todo} />
           <Route render={() => <NavError/>} />
         </Switch>
       </>
