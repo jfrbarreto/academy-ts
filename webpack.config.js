@@ -8,6 +8,7 @@ module.exports = {
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".css"]
   },
+  performance: { hints: false },
   module: {
     rules: [
       {
@@ -29,11 +30,6 @@ module.exports = {
         loader: "source-map-loader"
       }
     ]
-  },
-
-  externals: {
-    react: "React",
-    "react-dom": "ReactDOM"
   },
   plugins: [
     new HtmlWebpackPlugin({

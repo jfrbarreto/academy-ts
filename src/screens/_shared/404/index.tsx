@@ -1,8 +1,17 @@
 import * as React from "react";
-import Header from "./components/header/Header";
+import Header from "../Header";
 
 class NavError extends React.Component {
   state = {};
+
+  componentDidMount() {
+    console.log("<NavError> mount!");
+  }
+
+  componentDidUpdate() {
+    console.log("<NavError> update!");
+  }
+
   render() {
     return (
       <React.Fragment>

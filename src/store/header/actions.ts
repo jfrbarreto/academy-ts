@@ -1,4 +1,4 @@
-import { CHANGE_HEADER_VISIBILITY, HeaderActionTypes, Routes, HEADER_NAVIGATE } from "./types";
+import { CHANGE_HEADER_VISIBILITY, UPDATE_FILTER_VALUE, HeaderActionTypes, Routes, HEADER_NAVIGATE } from "./types";
 
 export function updateHeaderVisibility(
   newVisibility: boolean
@@ -15,5 +15,14 @@ export function headerNavigate(
   return {
     type: HEADER_NAVIGATE,
     route: route
+  };
+}
+
+export function updateFilterValue(
+  value: string
+): HeaderActionTypes {
+  return {
+    type: UPDATE_FILTER_VALUE,
+    value: value
   };
 }

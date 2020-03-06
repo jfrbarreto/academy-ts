@@ -2,14 +2,16 @@
 import {
   HeaderState,
   HeaderActionTypes,
-  CHANGE_HEADER_VISIBILITY
+  CHANGE_HEADER_VISIBILITY,
+  UPDATE_FILTER_VALUE
 } from './types'
 
 const initialState: HeaderState = {
   visible: false,
   title: 'Academy',
   subtitle: 'Tutorial',
-  details: 'React + Typescript + Redux'
+  details: 'React + Typescript + Redux',
+  filterValue: ''
 }
 
 export function headerReducer(
@@ -23,6 +25,11 @@ export function headerReducer(
         ...state,
         visible: action.payload
       }
+      case UPDATE_FILTER_VALUE:
+        return {
+          ...state,
+          filterValue: action.value
+        }
     default:
       return state
   }

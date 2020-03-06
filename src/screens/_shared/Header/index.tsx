@@ -1,8 +1,12 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { AppState } from "../../store/configureStore";
-import { HeaderState, Routes } from "../../store/header/types";
-import { updateHeaderVisibility } from "../../store/header/actions";
+import { AppState } from "../../../store/configureStore";
+import { HeaderState, Routes } from "../../../store/header/types";
+import {
+  updateHeaderVisibility,
+  updateFilterValue
+} from "../../../store/header/actions";
+import { updateFilteredPostList } from "../../../store/list/actions";
 
 import { push, Push, RouterState } from "connected-react-router";
 
@@ -18,28 +22,34 @@ import {
   Button,
   DropdownButton,
   InputGroup,
-  Dropdown
+  Dropdown,
+  ButtonGroup,
+  Badge
 } from "react-bootstrap";
+import { ListBodyState } from "../../../store/list/types";
 
 interface HeaderProps {
   header: HeaderState;
   updateHeaderVisibility: typeof updateHeaderVisibility;
+  updateFilterValue: typeof updateFilterValue;
+  updateFilteredPostList: typeof updateFilteredPostList;
   push: Push;
   router: RouterState;
+  listBody: ListBodyState;
 }
 
 class Header extends React.Component<HeaderProps> {
   snipetStyle = { fontSize: "10px", color: "grey" };
 
   componentDidMount() {
-    console.log("<Header> mount!", this.props, this.state);
+    console.log("<Header> mount!");
   }
 
   componentDidUpdate() {
     console.log("<Header> update!");
   }
 
-  handleVisibility() {
+  handleVisibility(): void {
     const {
       header: { visible },
       updateHeaderVisibility
@@ -47,7 +57,9 @@ class Header extends React.Component<HeaderProps> {
     updateHeaderVisibility(!visible);
   }
 
-  nav = (path: Routes) => this.props.push(path);
+  nav = (path: Routes): void => {
+    this.props.push(path);
+  };
 
   isActive = (link: Routes): boolean => {
     const {
@@ -58,9 +70,24 @@ class Header extends React.Component<HeaderProps> {
     return pathname.includes(link);
   };
 
+  filterUser = (event: React.MouseEvent<HTMLButtonElement>): void => {
+    const {
+      listBody: { postList },
+      updateFilterValue,
+      updateFilteredPostList
+    } = this.props;
+
+    let target = event.target as HTMLInputElement;
+    const filteredPostList = postList.filter(post => {
+      return post.userId === parseInt(target.value, 10);
+    });
+    updateFilterValue(target.value);
+    updateFilteredPostList(filteredPostList);
+  };
+
   render() {
     const {
-      header: { title, subtitle, details, visible }
+      header: { title, subtitle, details, visible, filterValue }
     } = this.props;
 
     return (
@@ -81,19 +108,19 @@ class Header extends React.Component<HeaderProps> {
         </Button>
 
         <Nav className="ml-auto">
-          { this.isActive("list") && <Form inline className="" style={{ marginRight: '30px' }}>
-          <DropdownButton
-                as={InputGroup.Prepend}
-                variant="outline-secondary"
-                title="Search Type"
-                id="input-group-dropdown-1"
-              >
-                <Dropdown.Item href="#">POST</Dropdown.Item>
-                <Dropdown.Item href="#">LOCAL</Dropdown.Item>
-              </DropdownButton>
-              <FormControl aria-describedby="basic-addon1" />
-            <Button style={{ marginLeft: '10px' }}>Search</Button>
-          </Form> }
+          {this.isActive("list") && (
+            <Form onSubmit={(event: any) => event.preventDefault()} inline className="" style={{ marginRight: "30px" }}>
+              <Form.Label style={{ marginRight: '10px'}}>Filter</Form.Label>
+              <FormControl
+                type={"number"}
+                value={filterValue}
+                onChange={(e: any) => this.filterUser(e)}
+                aria-describedby="basic-addon1"
+                disabled={this.isActive('list-details')}
+              />
+              
+            </Form>
+          )}
           <Nav.Link
             active={this.isActive("home")}
             onClick={() => this.nav("home")}
@@ -126,9 +153,13 @@ class Header extends React.Component<HeaderProps> {
 
 const mapStateToProps = (state: AppState) => ({
   header: state.header,
-  router: state.router
+  router: state.router,
+  listBody: state.listBody
 });
 
-export default connect(mapStateToProps, { updateHeaderVisibility, push })(
-  Header
-);
+export default connect(mapStateToProps, {
+  updateHeaderVisibility,
+  updateFilterValue,
+  updateFilteredPostList,
+  push
+})(Header);
